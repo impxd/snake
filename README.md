@@ -58,6 +58,7 @@ src/
 
 | Key          | Action                          |
 |--------------|---------------------------------|
+| **ESC** | Close the game   |
 | **Arrow Keys** | Change the snake's direction   |
 | **P**        | Pause/Resume the game          |
 | **R**        | Restart the game after `Game Over` or `Win` |
@@ -70,6 +71,12 @@ You can modify the game settings in `model.clj`:
 - **Snake Initial Position**: `:snake`
 - **Portal Positions**: `:portals`
 - **Snake Speed**: `:move {:time 0.30 :val 0}`
+
+## Screenshots
+
+<img width="550" height="427" alt="Screenshot 2025-11-04 at 2 32 06 p m" src="https://github.com/user-attachments/assets/5e85930f-23ba-4dc0-8ec8-203a431559b8" />
+
+<img width="550" height="427" alt="Screenshot 2025-11-04 at 1 42 45 p m" src="https://github.com/user-attachments/assets/d6c145bd-ee70-43df-a9ed-e249adbae6ea" />
 
 ## Dependencies
 - **Clojure**: Functional programming language.
