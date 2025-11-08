@@ -6,8 +6,9 @@
   :dependencies [[org.clojure/clojure "1.12.2"]
                  [uk.co.electronstudio.jaylib/jaylib "5.5.0-2"]
                  [org.clojure/core.match "1.1.0"]]
-  :jvm-opts ["-XstartOnFirstThread" "--enable-native-access=ALL-UNNAMED"]
+  :jvm-opts ["--enable-native-access=ALL-UNNAMED"]
   :main ^:skip-aot snake.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+             :mac {:jvm-opts ["-XstartOnFirstThread"]}})
