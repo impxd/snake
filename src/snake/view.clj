@@ -1,6 +1,7 @@
 (ns snake.view
   (:import [com.raylib Raylib Colors])
-  (:require [snake.utils :as utils]))
+  (:require [snake.utils :as utils]
+            [snake.update :as update]))
 
 ;; Define functions to render the game state using Raylib
 
@@ -8,7 +9,7 @@
   "Handles user input for the current game state."
   [game-state]
   (case (:status game-state)
-    :playing (let [direction (:direction game-state)]
+    :playing (let [direction (update/snake-direction (:snake game-state))]
                (cond-> []
                  (Raylib/IsKeyPressed Raylib/KEY_P) (conj :pause)
                  (and (not= direction :left) (Raylib/IsKeyPressed Raylib/KEY_RIGHT)) (conj [:change-direction :right])
@@ -19,8 +20,8 @@
                  (or (Raylib/IsKeyPressed Raylib/KEY_E) (zero? (utils/get-tick-value game-state :food-expiration))) (conj :food-expiration-tick)
                  (zero? (utils/get-tick-value game-state :move)) (conj :move)))
     :paused (cond
-             (Raylib/IsKeyPressed Raylib/KEY_P) [:pause]
-             :else [:idle])
+              (Raylib/IsKeyPressed Raylib/KEY_P) [:pause]
+              :else [:idle])
     :game-over (cond
                  (Raylib/IsKeyPressed Raylib/KEY_R) [:restart]
                  :else [:idle])
@@ -96,9 +97,9 @@
         cell-size (:cell-size game-state)
         portal-positions (keys (:portals game-state))]
     (doseq [[x y] portal-positions]
-        (let [rect-x (+ screen-padding (* x cell-size))
-              rect-y (+ screen-padding (* y cell-size))]
-          (Raylib/DrawRectangle rect-x rect-y cell-size cell-size Colors/LIGHTGRAY)))))
+      (let [rect-x (+ screen-padding (* x cell-size))
+            rect-y (+ screen-padding (* y cell-size))]
+        (Raylib/DrawRectangle rect-x rect-y cell-size cell-size Colors/LIGHTGRAY)))))
 
 
 (defn view-status

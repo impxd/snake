@@ -18,7 +18,7 @@
 (s/def ::cell-size pos-int?) ;; Cell size (int) of each cell in the grid
 (s/def ::grid-width pos-int?) ;; Grid width (int) of the game grid
 (s/def ::grid-height pos-int?) ;; Grid height (int) of the game grid
-(s/def ::snake (s/coll-of ::position :kind list? :min-count 1)) ;; List of Positions (tuple) representing the snake's body
+(s/def ::snake (s/coll-of ::position :kind list? :min-count 2)) ;; List of Positions (tuple) representing the snake's body
 (s/def ::direction #{:up :down :left :right}) ;; Current direction of the snake :up, :down, :left, :right
 (s/def ::food (s/nilable ::position)) ;; Position (tuple) of the food or nil if no food is present
 (s/def ::food-expiration-ticks pos-int?)  ;; Ticks (int) until the food expires
@@ -64,8 +64,7 @@
                                  [0 9] {:left [14 9] :down [0 0]}
                                  [14 9] {:right [0 9] :down [14 0]}}
                        :ticks {:move {:time 0.30 :val 0}
-                               :food-expiration {:time 1.0 :val 0}}
-                       }
+                               :food-expiration {:time 1.0 :val 0}}}
         new-state (conj default-state game-state)]
     (s/assert ::game-state new-state)
     new-state))

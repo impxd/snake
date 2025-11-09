@@ -34,18 +34,23 @@
    (contains? (set (keys portals)) position)
    (some? (get-in portals [position direction]))))
 
+(defn new-position
+  "Returns a new position based on a given direction."
+  [position direction]
+  (let [[px py] position]
+    (case direction
+      :left  [(dec px) py]
+      :right [(inc px) py]
+      :up    [px (dec py)]
+      :down  [px (inc py)])))
+
 (defn move-to-position
   "Returns the new Position after moving from a pivot Position
-   in the given direction."
+   in the given direction taking in account existing portals."
   [portals position direction]
   (if (portal? portals position direction)
     (get-in portals [position direction])
-    (let [[px py] position]
-      (case direction
-        :left  [(dec px) py]
-        :right [(inc px) py]
-        :up    [px (dec py)]
-        :down  [px (inc py)]))))
+    (new-position position direction)))
 
 (defn new-head-position
   "Returns the new head Position"
@@ -73,6 +78,20 @@
           (< head-y 0)) :wall-collision
       (portal? (:portals game-state) head direction) :through-portal
       :else :available)))
+
+(defn head-direction
+  "Returns a direction based on a head position and a body position"
+  [head body]
+  (cond
+    (= (new-position head :right) body) :left
+    (= (new-position head :left) body) :right
+    (= (new-position head :up) body) :down
+    (= (new-position head :down) body) :up))
+
+(defn snake-direction
+  "Returns the direction of the snake"
+  [snake]
+  (head-direction (first snake) (second snake)))
 
 (defn move-snake
   "Moves the snake in the current direction.
